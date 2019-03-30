@@ -1,14 +1,15 @@
 <template>
     <div class="edit_container" style="background-color: white;">
         <quill-editor
-                v-model="content"
-                ref="myQuillEditor"
-                :options="editorOption"
-                @blur="onEditorBlur($event)"
-                @focus="onEditorFocus($event)"
-                @change="onEditorChange($event)">
+        		v-model="content"
+        		ref="myQuillEditor"
+        		:options="editorOption"
+        		@blur="onEditorBlur($event)"
+        		@focus="onEditorFocus($event)"
+        		@change="onEditorChange($event)">
         </quill-editor>
-		<input id="file-selector" type="file" v-show="false" @change="upload()">
+        <input id="file-selector" type="file" v-show="false" @change="upload()">
+		<!--<input v-model="editContent" v-show="false" type="text"/>-->
     </div>
 </template>
 
@@ -16,7 +17,14 @@
     export default {
         name: "texteditor",
 		props: {
-			abc: ''
+            editContent: null
+		},
+		watch: {
+            //将单向绑定变为了接近于双向绑定，postinfo模块回帖完毕后清空content传过来参数editContent，这边的content一直watch  editContent的变化
+            editContent (val) {
+              this.content = val;
+              console.log("成了！"+this.content);
+		  	}
 		},
         data () {
             return {
@@ -24,7 +32,7 @@
                 Bucket: 'witnessstan-1253539867',
                 Region: 'ap-guangzhou',
                 responseData: null,
-				content: ``,
+				content: this.editContent,
 				editorOption: {
 					modules: {
 						toolbar: {
@@ -44,7 +52,7 @@
 									[{'color': []}, {'background': []}],          // dropdown with defaults from theme
 									[{'font': []}],
 									[{'align': []}],
-									['link', 'image', 'video'],
+									['link', 'image'],
 									['clean']
 							],
 							handlers: {
@@ -90,7 +98,8 @@
 				console.log("focus");
 			},
             onEditorChange(){//内容改变事件
-				console.log("change");
+				console.log("change"+this.content);
+				this.$emit('editorChange',this.content);
 			},
 			upload() {
 				var responseURL = null;
@@ -139,6 +148,9 @@
 						quill.insertEmbed(currentMousePosition, 'image', responseURL);
 					});
 				});		
+			},
+            changeContent(e) {
+
 			}
         }
     }

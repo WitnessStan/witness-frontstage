@@ -19,7 +19,9 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                    {{postDetail.createTime}}
                 </p>
-                <p>{{postDetail.content}}<br><img style="width: 50px;height: 50px;" src="../../images/logo.jpg" /></p>
+                <p v-html="postDetail.content">
+                    {{postDetail.content}}
+                </p>
             </Card>
             <Card :bordered="true" v-for="(reply, index) in postReply" :key="index" style="margin-bottom: 10px">
                 <div>
@@ -34,7 +36,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button @click="showChildReplies(reply)"><font style="color: #4d5669;">查看回复({{reply.childList.length}})</font></Button>
                     </p>
-                    <p>
+                    <p v-html="reply.comment">
                         {{reply.comment}}
                     </p>
                     <div style="margin-left: 30px;" v-show="reply.showChild">
@@ -53,12 +55,16 @@
                 </div>
             </Card>
         </div>
-        <div class="pages" style="margin-bottom: 50px">
+        
+				<div class="pages" style="margin-bottom: 50px">
             <Page :total="total" :page-size="pageInfo.pageSize" show-elevator show-total @on-change="e=>{changePage(e)}"/>
         </div>
-        <div class="reply">
-             <texteditor :abc="'haha'" v-if="isLogin"></texteditor>
+
+        <div class="replyEditor">
+             <texteditor v-if="isLogin" @editorChange="e=>{getEditorContent(e)}" :editContent="postReplyForm.comment">
+						 </texteditor>
             <Alert type="warning" v-else>请登陆后再回复！</Alert>
+            <Button v-if="isLogin" style="float: right;margin-top: 10px;font-size: 20px" @click="reply">回帖</Button>
         </div>
 
         <Modal :mask-closable="false" :visible.sync="postReplyFormVisible" v-model="postReplyFormVisible" width="500" title="回复" @on-ok="postReplyFormOK()">
@@ -78,7 +84,7 @@
                     postId: this.$route.fullPath.charAt(this.$route.fullPath.length - 1),
                     total: 0,
                     pageInfo: {
-                        pageSize: 2,
+                        pageSize: 5,
                         page: 1
                     },
                     //帖子信息
@@ -87,6 +93,7 @@
                     postReply: [],
                     isLogin: false,
                     postReplyFormVisible: false,
+                    //回帖表单实体
                     postReplyForm: {
                         postId: this.postId,
                         parentId: null,
@@ -169,6 +176,13 @@
                         this.setChildPostReplyForm(child);
                     }
                 },
+                initPostReplyForm() {
+                    this.postReplyForm.postId = this.postId;
+                    this.postReplyForm.parentId = null;
+                    this.postReplyForm.replyToId = null;
+                    this.postReplyForm.replyToName = null;
+                    this.postReplyForm.comment = null;
+                },
                 //楼中楼回复(直接回复层主)初始化
                 setChildPostReplyForm2(reply) {
                     this.postReplyForm.postId = reply.postId;
@@ -200,6 +214,29 @@
                     }).then(function (response) {
                         this.$Message.info(response.data.data);
                         this.getPostReplys(this.postId,this.pageInfo);
+                    }.bind(this)).catch((error) => {
+                        this.$Message.error("发生错误！回帖失败！");
+                        console.log(error);
+                    });
+                },
+                //获取编辑器内容
+                getEditorContent(e) {
+                    this.initPostReplyForm();
+                    this.postReplyForm.parentId = null;
+                    this.postReplyForm.replyToId = this.postDetail.userid;
+                    this.postReplyForm.replyToName = null;
+                    this.postReplyForm.comment = e;
+                    console.log(this.postReplyForm);
+                },
+                reply() {
+                    this.axios({
+                        method: 'post',
+                        url: '/post/replies',
+                        data: this.postReplyForm
+                    }).then(function (response) {
+                        this.$Message.info(response.data.data);
+                        this.getPostReplys(this.postId,this.pageInfo);
+                        this.initPostReplyForm();
                     }.bind(this)).catch((error) => {
                         this.$Message.error("发生错误！回帖失败！");
                         console.log(error);
