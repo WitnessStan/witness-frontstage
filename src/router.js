@@ -53,7 +53,7 @@ const routers = [
             {
                 path: 'posts',
                 meta: {
-                    title: '我的贴子'
+                    title: '帖子列表'
                 },
                 component: (reslove) => require(['./views/forum/mypost.vue'], reslove)
             },
@@ -63,7 +63,14 @@ const routers = [
                     title: '帖子详情'
                 },
                 component: (reslove) => require(['./views/forum/postinfo.vue'], reslove)
-            }
+            },
+			{
+				path: 'posts/edit/*',
+				meta: {
+					title: '编辑帖子'
+				},
+                component: (reslove) => require(['./views/forum/editpost.vue'], reslove)
+			}
         ]
     },
 	{

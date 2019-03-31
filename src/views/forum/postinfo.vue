@@ -82,7 +82,7 @@
             },
             data () {
                 return {
-                    postId: this.$route.fullPath.charAt(this.$route.fullPath.length - 1),
+                    postId: this.$route.fullPath.split("/")[this.$route.fullPath.split("/").length - 1],
                     total: 0,
                     pageInfo: {
                         pageSize: 5,
@@ -109,8 +109,7 @@
             mounted () {
                 this.isLogin = this.checkLogin();
                 // var postId = this.$route.fullPath.charAt(this.$route.fullPath.length - 1);
-                this.getPostDetail(this.postId);
-                this.getPostReplys(this.postId, this.pageInfo);
+                this.initPage(this.postId, this.pageInfo);
             },
             methods: {
                 getPostDetail(postId) {
@@ -242,6 +241,17 @@
                         this.$Message.error("发生错误！回帖失败！");
                         console.log(error);
                     });
+                },
+                initPage(postId, pageInfo) {
+                    this.axios({
+                        method: 'patch',
+                        url: '/public/post/'+postId
+                    }).then(function (res) {
+                        this.getPostDetail(postId);
+                        this.getPostReplys(postId, pageInfo);
+                    }.bind(this)).catch((error) => {
+                        this.$Message.error("发生错误！阅读数更新失败！"+error);
+                    })
                 }
             }
          }

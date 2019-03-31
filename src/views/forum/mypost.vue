@@ -48,10 +48,10 @@
                         <Col span="12">
                             <!--<p style="text-align: right;color: #2db7f5;font-size: 17px">点击数：{{post.clickCount}}&nbsp;&nbsp;回复数：{{post.commentCount}}</p>-->
                             <p style="text-align: right;color: #2db7f5;font-size: 17px">
-                                <Button @click="editPost(post.id)" type="primary" >编辑</Button>
-                            </p>
-                            <p style="text-align: right;color: #2db7f5;font-size: 17px">
-                                <Button @click="deletePost(post.id)" type="primary" >删除</Button>
+                                <router-link :to="('/forum/posts/edit/'+post.id)">
+                                    <Button type="warning" >编辑</Button>
+                                </router-link>
+                                <Button @click="deletePost(post.id)" type="error" >删除</Button>
                             </p>
                         </Col>
                     </Row>
@@ -196,6 +196,7 @@
                         url: '/post/'+postId
                     }).then(function(response) {
                         this.$Message.info(response.data.data);
+                        location.reload();
                     }.bind(this)).catch((error) => {
                         this.$Message.error(error);
                     });
