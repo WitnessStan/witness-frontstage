@@ -51,7 +51,7 @@ const routers = [
                 component: (reslove) => require(['./views/forum/createpost.vue'], reslove)
             },
             {
-                path: 'mypost',
+                path: 'posts',
                 meta: {
                     title: '我的贴子'
                 },
@@ -60,7 +60,7 @@ const routers = [
             {
                 path: 'posts/details/*',
                 meta: {
-                    title: '我的贴子'
+                    title: '帖子详情'
                 },
                 component: (reslove) => require(['./views/forum/postinfo.vue'], reslove)
             }

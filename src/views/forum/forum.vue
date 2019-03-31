@@ -13,7 +13,7 @@
 					</router-link>
 				</div>
 				<div class="post-info" style="margin-top: 10px;">
-					<p>{{post.info}}</p>
+					<p v-html="post.info">{{post.info}}</p>
 				</div>
 				<div class="post-others" style="margin-top: 20px;">
 					<Row>

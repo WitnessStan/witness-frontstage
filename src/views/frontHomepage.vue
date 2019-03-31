@@ -344,7 +344,7 @@
 				} else if (menu == 41) {
 				    this.$router.push("/forum/create");
                 } else if (menu == 42) {
-				    this.$router.push("/forum/mypost");
+				    this.$router.push("/forum/posts");
                 } else if (menu == 5) {
 					this.clearUser();
 					this.isLogin = false;

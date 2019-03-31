@@ -35,6 +35,7 @@
                         <Button @click="childReplyToNullParent(reply)"><font style="color: #4d5669;">回复</font></Button>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button @click="showChildReplies(reply)"><font style="color: #4d5669;">查看回复({{reply.childList.length}})</font></Button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{reply.createTime}}
                     </p>
                     <p v-html="reply.comment">
                         {{reply.comment}}
@@ -148,7 +149,7 @@
                 },
                 checkLogin() {
                     if ((localStorage.getItem('currentUserName') != null && localStorage.getItem('currentUserName') != '')
-                        && (localStorage.getItem('currentUserAccessToken') != null && localStorage.getItem('currentUserAccessToken') != ''))
+                        || (localStorage.getItem('currentUserAccessToken') != null && localStorage.getItem('currentUserAccessToken') != ''))
                         return true;
                     return false;
                 },
