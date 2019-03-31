@@ -104,15 +104,21 @@
 		</Modal>
 		
 		<Modal :mask-closable="false" :loading="loading" :visible.sync="modalUserInfo" v-model="modalUserInfo" width="600" title="修改信息" @on-ok="modalUserInfoOk('modalUser')">
-			<div class="left" style="float: left;border-style: dashed;width: 100px;">
-				<img style="width: 50px;height: 50px;border-radius: 100%;display: block;border-style: dashed;margin-left: 20px;" :src="user.img"><br>
-				<Button type="success" style="margin-left: 5px;" @click="showSetImg()">设置头像</Button>
-<!-- 				<Upload action="http://www.baidu.com">
-					<Button icon="ios-cloud-upload-outline">上传头像</Button>
-				</Upload> -->
-				
+			<div class="left" style="float: left;width: 100px;">
+				<img style="width: 50px;height: 50px;border-radius: 100%;display: block;margin-left: 20px;" :src="user.img"><br>
+				<!--<Button type="success" style="margin-left: 5px;" @click="showSetImg()">设置头像</Button>-->
+			<!--<Upload action="http://www.baidu.com">-->
+                <!--<Button icon="ios-cloud-upload-outline">上传头像</Button>-->
+            <!--</Upload>-->
+                <Upload
+                        :headers="headers"
+                        action="/wh/userImg"
+                        :on-success="handleSuccess"
+                >
+                    <Button icon="ios-cloud-upload-outline">上传图片</Button>
+                </Upload>
 			</div>
-			<div class="right" style="border-style: dashed;margin-left: 120px;">
+			<div class="right" style="margin-left: 120px;">
 				<Form ref="modalUser" :model="modalUser" :rules="ruleInline">
 					<div style="margin-top: -10px;">
 						<FormItem prop="name">
@@ -131,6 +137,9 @@
     export default {
         data () {
             return {
+                headers:{
+                    Authorization:'bearer '+ localStorage.getItem("currentUserAccessToken")
+                },
                 user: {
                 	loginName: '',
                 	email: '',
@@ -156,7 +165,7 @@
 				userInfo: false,
 				modalUserInfo: false,
 				loading: true,
-				setImgVisible: false,
+				// setImgVisible: false,
 				columns1: [
 					{
 						title: '登录名',
@@ -396,9 +405,19 @@
 					}
 				});
 			},
-			showSetImg() {
-				this.setImgVisible = true;
-			}
+            handleSuccess (res, file) {
+                this.$Message.info("修改头像成功！");
+                location.reload();
+            },
+            handleBeforeUpload () {
+
+            },
+            handleFormatError (file) {
+                this.$Notice.warning({
+                    title: '图片格式不对',
+                    desc: '图片格式只能为jpg,jpeg,png'
+                });
+            }
         }
     }
 </script>

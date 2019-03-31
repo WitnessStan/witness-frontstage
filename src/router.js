@@ -18,7 +18,7 @@ const routers = [
                 meta: {
                     title: ''
                 },
-                component: (reslove) => require(['./views/favorite/favorite.vue'], reslove)
+                component: (reslove) => require(['./views/welcomepage.vue'], reslove)
             },
 			{
 				path: 'favorite',
