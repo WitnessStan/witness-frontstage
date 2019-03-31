@@ -27,7 +27,7 @@
 		<div class="index_background">
 			<Form ref="formInline" :model="formInline" :rules="ruleInline">
 				<div class="index_login">
-					<ul>
+					<ul style="list-style: none">
 						<li><h1>登录</h1></li>
 						<li>
 							<div class="name-password-error" v-if="this.$store.state.ifSign">用户名或密码错误</div>

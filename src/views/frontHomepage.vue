@@ -87,6 +87,9 @@
 						<MenuItem name="6">
 							<Icon type="md-arrow-round-forward" />登录
 						</MenuItem>
+                        <MenuItem name="7">
+                            <Icon type="md-arrow-round-forward" />注册
+                        </MenuItem>
 					</div>
                 </Menu>
             </Header>
@@ -355,7 +358,9 @@
                     localStorage.clear();
 				} else if (menu == 6) {
 					this.$router.push('/login');
-				}
+				} else if (menu == 7) {
+				    this.$router.push("/registration");
+                }
 			},
 			modalUserInfoOk(e) {
 				this.$refs[e].validate((valid) => {

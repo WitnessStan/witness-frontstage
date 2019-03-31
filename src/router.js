@@ -76,9 +76,16 @@ const routers = [
 	{
 		path: '/login',
 		meta: {
-			title: 'login'
+			title: '登录'
 		},
 		component: (resolve) => require(['./views/login.vue'], resolve)
+	},
+	{
+		path: '/registration',
+		meta: {
+			title: '注册'
+		},
+		component: (resolve) => require(['./views/registration.vue'], resolve)
 	},
     {
         path: '/backstage',
