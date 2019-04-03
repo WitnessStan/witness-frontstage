@@ -112,7 +112,7 @@
             <!--</Upload>-->
                 <Upload
                         :headers="headers"
-                        action="/wh/userImg"
+                        action="/stan/userImg"
                         :on-success="handleSuccess"
                 >
                     <Button icon="ios-cloud-upload-outline">上传图片</Button>
@@ -249,7 +249,7 @@
 				this.modalUserInfo = true;
 			},
 			getPublicUser() {
-				if(localStorage.getItem("currentUserName") != null && localStorage.getItem("currentUserName") != '') {
+				if(localStorage.getItem("currentUserName") != null && localStorage.getItem("currentUserName") != '' && localStorage.getItem('currentUserAccessToken') != null && localStorage.getItem('currentUserAccessToken') != '') {
 					this.axios({
 						method: 'get',
 						url: '/public/user',
@@ -268,7 +268,7 @@
 							this.$Message.warning("未登录状态下，限制功能(password)！");
 						}
 					}.bind(this)).catch((error) => {
-						alert("error1");
+						alert("token过期(password)"+error);
 					});
 				} else if (localStorage.getItem('currentUserAccessToken') != null && localStorage.getItem('currentUserAccessToken') != '') {
                     this.axios({
@@ -286,7 +286,7 @@
                             this.$Message.warning("未登录状态下，限制功能(github)！");
                         }
                     }.bind(this)).catch((error) => {
-                        alert("error2");
+                        alert("token过期(github)"+error);
                     });
                 } else {
 				    this.$Message.warning("未登录状态下，限制功能");

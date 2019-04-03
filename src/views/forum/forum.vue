@@ -4,6 +4,7 @@
     <div class="forum" style="background-color: #f5f7f9;padding: 20px;">
 		<div class="title" style="text-align: center;margin-bottom: 10px">
 			<h1>论坛</h1>
+			<searchblank></searchblank>
 		</div>
 		<div class="cards" style="margin-bottom: 30px;">
 			<Card :bordered="true" style="margin-bottom: 10px;" v-for="(post,index) in postList" :key="index">
@@ -38,7 +39,9 @@
     </div>
 </template>
 <script>
+    import Searchblank from "../utils/searchblank";
     export default {
+        components: {Searchblank},
         data () {
             return {
 				total: null,

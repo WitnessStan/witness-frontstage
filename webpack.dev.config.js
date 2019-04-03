@@ -22,7 +22,7 @@ module.exports = merge(webpackBaseConfig, {
 		inline: true,
 		hot: true,
 		proxy:{
-			'/wh/*':
+			'/stan/*':
 			{
 				target: 'http://localhost:8090',   //原为localhost
 				secure: false  

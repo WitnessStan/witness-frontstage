@@ -11,7 +11,7 @@ if(localStorage.getItem("currentUserAccessToken") == null || localStorage.getIte
 }else{
     axios.defaults.headers.common['Authorization'] = 'bearer '+ localStorage.getItem("currentUserAccessToken");
 }
-axios.defaults.baseURL = '/wh';
+axios.defaults.baseURL = '/stan';
 
 // http response 拦截器
 axios.interceptors.response.use(
@@ -22,19 +22,22 @@ axios.interceptors.response.use(
         if (error.response) {
             switch (error.response.status) {
                 case 401:
-                    // 401 清除token信息并跳转到登录页面
+                    //清除token信息并跳转到登录页面
                     store.commit('user/clearUser');
+                    alert("未登录！");
                     router.replace({
-                        path: '/backstage',
+                        path: '/login',
                         query: {redirect: router.currentRoute.fullPath}
                     });
                     break;
                 case 403:
+                    alert("无权限！");
                     // 403 无权限，跳转到首页
                     router.replace({
-                        path: '/backstage/base/home',
+                        path: '/',
                         query: {redirect: router.currentRoute.fullPath}
                     });
+                    location.reload();
                     break;
             }
         }

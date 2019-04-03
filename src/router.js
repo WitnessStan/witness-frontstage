@@ -142,6 +142,10 @@ const routers = [
     {
         path: '*',
         component: (resolve) => require(['./views/error.vue'], resolve)
+    },
+    {
+        path: '/tests',
+        component: (resolve) => require(['./views/utils/searchblank.vue'], resolve)
     }
 ];
 
