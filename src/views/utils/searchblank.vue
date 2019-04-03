@@ -1,6 +1,7 @@
 <template>
     <div id="search" style="margin: 0 auto;text-align: center;">
-        <input type="text" class="search" placeholder="搜索帖子" v-model.trim="title" style="width: 300px;" /><br>
+        <input type="text" class="search" placeholder="搜索帖子" v-model.trim="title" style="width: 300px;" />
+        <Button type="primary" @click="searchByButton(title)">搜索</Button><br/>
         <ul style="list-style: none;display: inline-block;">
             <li v-for="(value,index) in search" v-html="value.highlight_content" @click="redirectToPostInfo(value.id)"
                 v-on:mouseenter="addClassLoad(index)" v-on:mouseover="removeClassLoad(index)"
@@ -69,6 +70,9 @@
             removeClassLoad(index){
                 this.classEnable=false
                 this.current=index;
+            },
+            searchByButton (title) {
+                this.$router.push({path: '/forum/search', query: { text: title }});
             }
         },
         mounted() {},

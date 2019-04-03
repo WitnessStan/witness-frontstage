@@ -70,6 +70,13 @@ const routers = [
 					title: '编辑帖子'
 				},
                 component: (reslove) => require(['./views/forum/editpost.vue'], reslove)
+			},
+			{
+				path: 'search',
+				meta: {
+					title: '搜索结果'
+				},
+                component: (reslove) => require(['./views/forum/searchresult.vue'], reslove)
 			}
         ]
     },
