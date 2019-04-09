@@ -50,12 +50,16 @@
                 //     params: { title: this.title },
                 // });
                 this.axios({
-                    url: '/test/search',
+                    url: '/public/search',
                     method: 'get',
                     params: { text: this.title}
                 }).then(function (res) {
-                    this.search = res.data.data;
-                    console.log(this.search);
+                    if (res.data.code == 205) {
+                        this.$Message.error(res.data.message);
+                    } else {
+                        this.search = res.data.data;
+                        console.log(this.search);
+                    }
                 }.bind(this)).catch((error) => {
                     alert(error);
                 });

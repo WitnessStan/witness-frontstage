@@ -64,17 +64,21 @@
             getPosts(text, pageInfo) {
                 this.axios({
                     method: 'get',
-                    url: '/test/searchInfo',
+                    url: '/public/searchInfo',
                     params: {
                         'text': text,
                         'pageSize' : pageInfo.pageSize,
                         'page' : pageInfo.page - 1
                     }
                 }).then(function (response){
-                    this.postList = response.data.data.data;
-                    this.total = response.data.data.totalCount;
-                    console.log(this.postList);
-                    console.log(this.total);
+                    if (response.data.code == 205) {
+                        this.$Message.error(response.data.message);
+                    } else {
+                        this.postList = response.data.data.data;
+                        this.total = response.data.data.totalCount;
+                        console.log(this.postList);
+                        console.log(this.total);
+                    }
                 }.bind(this)).catch((error) => {
                     alert("获取帖子详情失败"+error);
                 });

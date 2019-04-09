@@ -70,7 +70,11 @@
                             url: '/posts',
                             data: this.postForm
                         }).then(function (response) {
-                            this.$Message.info(response.data.data);
+                            if (response.data.code == 206) {
+                                this.$Message.error(response.data.message);
+                            } else {
+                                this.$Message.info(response.data.data);
+                            }
                             this.initPostForm();
                         }.bind(this)).catch((error) => {
                             this.$Message.error("未知错误！"+error);
