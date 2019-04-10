@@ -23,7 +23,8 @@ const routers = [
 			{
 				path: 'favorite',
 				meta: {
-					title: 'favorite'
+					title: 'favorite',
+					requiresAuth: true
 				},
 				component: (reslove) => require(['./views/favorite/favorite.vue'], reslove)
 			}
@@ -46,14 +47,16 @@ const routers = [
             {
                 path: 'create',
                 meta: {
-                    title: '发帖'
+                    title: '发帖',
+					requiresAuth: true
                 },
                 component: (reslove) => require(['./views/forum/createpost.vue'], reslove)
             },
             {
                 path: 'posts',
                 meta: {
-                    title: '帖子列表'
+                    title: '帖子列表',
+					requiresAuth: true
                 },
                 component: (reslove) => require(['./views/forum/mypost.vue'], reslove)
             },
@@ -67,7 +70,8 @@ const routers = [
 			{
 				path: 'posts/edit/*',
 				meta: {
-					title: '编辑帖子'
+					title: '编辑帖子',
+					requiresAuth: true
 				},
                 component: (reslove) => require(['./views/forum/editpost.vue'], reslove)
 			},
@@ -158,16 +162,16 @@ const routers = [
 
 // 路由配置
 const RouterConfig = {
-    mode: 'history',  //打包的时候用hash
+    mode: 'hash',  //打包的时候用hash
     routes: routers
 };
 const router = new VueRouter(RouterConfig);
-//每个路由跳转时检查是否带着requiresAuth为true的属性且带着accessToken
+//每个路由跳转时检查是否带着requiresAuth为true的属性且带着accessToken,未带token跳去首页
 router.beforeEach((to, from, next) => {
 	let token = window.localStorage.getItem("currentUserAccessToken");
 	if(to.matched.some(record => record.meta.requiresAuth) && (!token || token === null)) {
 		next({
-			path: '/backstage',
+			path: '/',
 			query: { redirect: to.fullPath }
 		})
 	}

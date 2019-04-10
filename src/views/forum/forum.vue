@@ -27,7 +27,7 @@
 							</p>
 						</Col>
 						<Col span="12">
-							<p style="text-align: right;color: #2db7f5;font-size: 17px">点击数：{{post.clickCount}}&nbsp;&nbsp;回复数：{{post.commentCount}}</p>
+							<p style="text-align: right;color: #2db7f5;font-size: 17px">点击数：{{post.clickCount}}&nbsp;&nbsp;回复数：{{post.commentCount}}&nbsp;&nbsp;Latest：{{post.replyTime}}</p>
 						</Col>
 					</Row>
 				</div>

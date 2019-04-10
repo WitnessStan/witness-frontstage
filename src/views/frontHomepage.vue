@@ -215,6 +215,13 @@
         },
 		mounted (){
 			//获取github回调code
+			var href = window.location.href;
+			if (href.includes("/?code")) {
+			    var url = href.substring(0, href.length - 2);
+			    var leftUrl = url.substring(0, url.lastIndexOf("/"));
+			    var rightUrl = url.substring(url.lastIndexOf("/") + 1, url.length);
+			    window.location = leftUrl + "#/" + rightUrl;
+            }
 			var code = this.$route.query.code;
 			//有带code则为github登录,否则为密码登录或者未登录
 			if(code != null && code != '') {
