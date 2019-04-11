@@ -14,7 +14,7 @@ webpack build后部署到nginx
   修改个人信息,上传头像(直接上传到腾讯云COS）
   发帖，回帖(回复）
   搜索帖子
-  登陆（基于oauth2协议，使用的是usernamepassword授权模式,token存储到localstorage中）与第三方登录（github）
+  登陆（token存储到localstorage中,后端基于oauth2协议，使用的是usernamepassword授权模式,）与第三方登录（github）
   注册
 后台：
   用户管理，角色权限管理，菜单管理..
